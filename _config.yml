@@ -1,9 +1,12 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: My sample book
-author: The Jupyter Book Community
+title: Python coding for satellite image processing  # The title of the book. Will be placed in the left navbar.
+author: Vitor Martins
+copyright: "2023" # Copyright year to be placed in the footer
 logo: logo.png
+description: This online tutorials contains a miscellaneous of satellite image processing for new students, designed and written by Vitor Martins and collaborators from
+  GCERlab, including Dakota Hester, Lucas Borges, Rejane Paulino, and Uilson Aires.
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
@@ -21,12 +24,21 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/executablebooks/jupyter-book  # Online location of your book
+  url: https://github.com/vsmartins/gcersat  # Online location of your book
   path_to_book: docs  # Optional path to your book, relative to the repository root
-  branch: master  # Which branch of the repository should be used when creating links (optional)
+  branch: gh-pages  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:
   use_issues_button: true
   use_repository_button: true
+  navbar_number_sections: true  # Add a number to each section in your left navbar
+  extra_navbar              : <a href="https://www.gcerlab.com/">Vitor Martins</a>  # Will be displayed underneath the left navbar.
+  home_page_in_navbar       : true  # Whether to include your home page in the left Navigation Bar
+
+
+launch_buttons:
+  colab_url: "https://colab.research.google.com"
+  notebook_interface: "jupyterlab"
+  binderhub_url: "https://mybinder.org"
