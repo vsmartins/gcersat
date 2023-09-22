@@ -403,8 +403,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-overview-span"><span style="color:black;">Overview</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-installation-span"><span style="color:black;">Installation</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-raster-programs-span"><span style="color:black;">GDAL raster programs</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-understanding-the-satellite-image-in-geotiff-format-with-gdalinfo-span"><span style="color:black;">Understanding the satellite image in Geotiff format with gdalinfo</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-examples-with-gdalwarp-span"><span style="color:black;">Examples with gdalwarp</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalinfo-span"><span style="color:black;">GDALINFO</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-translate-span"><span style="color:black;">GDAL_TRANSLATE</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalwarp-span"><span style="color:black;">GDALWARP</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-build-vrt-span"><span style="color:black;">GDAL_BUILD_VRT</span></a></li>
 </ul>
             </nav>
         </div>
@@ -449,33 +451,56 @@ gdalinfo: Lists information about a raster dataset.</p>
 <p>gdal_rasterize: Burns vector geometries into a raster.</p>
 <p>gdal_polygonize.py: Produces a polygon feature layer from a raster.</p>
 </section>
-<section id="span-style-color-black-understanding-the-satellite-image-in-geotiff-format-with-gdalinfo-span">
-<h2><span style="color:black;">Understanding the satellite image in Geotiff format with gdalinfo</span><a class="headerlink" href="#span-style-color-black-understanding-the-satellite-image-in-geotiff-format-with-gdalinfo-span" title="Permalink to this heading">#</a></h2>
+<section id="span-style-color-black-gdalinfo-span">
+<h2><span style="color:black;">GDALINFO</span><a class="headerlink" href="#span-style-color-black-gdalinfo-span" title="Permalink to this heading">#</a></h2>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gdalinfo<span class="w"> </span>LC08_L2SP_022039_20190322_20200829_02_T1_SR_B2.TIF
 </pre></div>
 </div>
+<a class="reference internal image-reference" href="../../_images/gdalinfo.png"><img alt="../../_images/gdalinfo.png" class="align-center" src="../../_images/gdalinfo.png" style="width: 750px;" /></a>
 </section>
-<section id="span-style-color-black-examples-with-gdalwarp-span">
-<h2><span style="color:black;">Examples with gdalwarp</span><a class="headerlink" href="#span-style-color-black-examples-with-gdalwarp-span" title="Permalink to this heading">#</a></h2>
+<section id="span-style-color-black-gdal-translate-span">
+<h2><span style="color:black;">GDAL_TRANSLATE</span><a class="headerlink" href="#span-style-color-black-gdal-translate-span" title="Permalink to this heading">#</a></h2>
+<p>To run, replace the input for the landsat image (LC08_L2SP_022039_20190322_20200829_02_T1_SR_B2.tif)</p>
+<p>List raster drivers</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdal_translate<span class="w"> </span>--formats
+</pre></div>
+</div>
+<p>Convert between raster formats</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdal_translate<span class="w"> </span>-of<span class="w"> </span><span class="s2">&quot;JP2OpenJPEG&quot;</span><span class="w"> </span>input.tif<span class="w"> </span>output.jp2
+</pre></div>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdal_translate<span class="w"> </span>-of<span class="w"> </span><span class="s2">&quot;ENVI&quot;</span><span class="w"> </span>input.tif<span class="w"> </span>output.envi
+</pre></div>
+</div>
+<p>Compress my data in LZW</p>
+<blockquote>
+<div><p>gdal_translate -of “GTiff” -co “COMPRESS=LZW” LC08_L2SP_022039_20190322_20200829_02_T1_SR_B2.TIF output_compress.tif</p>
+</div></blockquote>
+</section>
+<section id="span-style-color-black-gdalwarp-span">
+<h2><span style="color:black;">GDALWARP</span><a class="headerlink" href="#span-style-color-black-gdalwarp-span" title="Permalink to this heading">#</a></h2>
 <p>The gdalwarp has many applications, including reprojection, mosaicing, resampling pixel size, set nodata, cut the raster with other shapefile, and more.
 To understand the full list of options, see the parameters in <a class="reference external" href="https://gdal.org/programs/gdalwarp.html#gdalwarp">gdalwarp page</a></p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define variables</span>
-<span class="n">reservoir_name</span> <span class="o">=</span> <span class="s2">&quot;Ross Reservoir&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">reservoir_name</span><span class="p">))</span>
+<p>Clip raster with shapefile for pixels within polygon boundary</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdalwarp<span class="w"> </span>-crop_to_cutline<span class="w"> </span>-cutline<span class="w"> </span>lake_within_landsat.shp<span class="w"> </span>input.tif<span class="w"> </span>output.tif
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;str&#39;&gt;
+<p>Change no data</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdalwarp<span class="w"> </span>-srcnodata<span class="w"> </span>-999999<span class="w"> </span>-dstnodata<span class="w"> </span><span class="m">0</span><span class="w"> </span>input.tif<span class="w"> </span>output.tif
 </pre></div>
 </div>
+<p>Reproject raster</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdalwarp<span class="w"> </span>-srcnodata<span class="w"> </span>-t_srs<span class="w"> </span><span class="s2">&quot;EPSG:4326&quot;</span><span class="w"> </span>input.tif<span class="w"> </span>output.tif
+</pre></div>
 </div>
-</div>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>Python is a dynamically typed language, which means that variables can change their data type during runtime based on the assigned value</p>
+</section>
+<section id="span-style-color-black-gdal-build-vrt-span">
+<h2><span style="color:black;">GDAL_BUILD_VRT</span><a class="headerlink" href="#span-style-color-black-gdal-build-vrt-span" title="Permalink to this heading">#</a></h2>
+<p>Merge rasters</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>dir<span class="w"> </span>/b<span class="w"> </span>*.tif<span class="w"> </span>&gt;<span class="w"> </span>filelist.txt
+&gt;<span class="w"> </span>gdalbuildvrt<span class="w"> </span>-input_file_list<span class="w"> </span>filelist.txt<span class="w"> </span>merged.vrt
+&gt;<span class="w"> </span>gdalwarp<span class="w"> </span>merged.vrt<span class="w"> </span>output.tif
+</pre></div>
 </div>
 </section>
 </section>
@@ -541,8 +566,10 @@ To understand the full list of options, see the parameters in <a class="referenc
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-overview-span"><span style="color:black;">Overview</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-installation-span"><span style="color:black;">Installation</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-raster-programs-span"><span style="color:black;">GDAL raster programs</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-understanding-the-satellite-image-in-geotiff-format-with-gdalinfo-span"><span style="color:black;">Understanding the satellite image in Geotiff format with gdalinfo</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-examples-with-gdalwarp-span"><span style="color:black;">Examples with gdalwarp</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalinfo-span"><span style="color:black;">GDALINFO</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-translate-span"><span style="color:black;">GDAL_TRANSLATE</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalwarp-span"><span style="color:black;">GDALWARP</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-build-vrt-span"><span style="color:black;">GDAL_BUILD_VRT</span></a></li>
 </ul>
   </nav></div>
 
