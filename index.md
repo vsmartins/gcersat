@@ -1,6 +1,6 @@
 # <span style="color:black;">**Python for satellite image processing**</span>
 
-**By [Vitor Martins](https://www.gcerlab.com/) 🛰️🌍💻**
+**By [Vitor Martins](https://www.gcerlab.com/), Dakota Hester, Lucas Borges, Uilson Aires 🛰️🌍💻**
 
 ## <span style="color:black;">Preface</span>
 
@@ -17,5 +17,5 @@ We would like to bring more opportunities for new members in GCERlab, and becaus
 ```
 
 ```{note}
-These lectures on Python programming was written by [Vitor S. Martins](http://www.gcerlab.com/) and GCERlab members.
+These lectures on Python programming was written by GCERlab members (http://www.gcerlab.com/).
 ```

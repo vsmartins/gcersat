@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: Python coding for satellite image processing  # The title of the book. Will be placed in the left navbar.
-author: Vitor Martins
+author: Vitor Martins, Dakota Hester, Lucas Ferreira, Uilson Aires
 copyright: "2023" # Copyright year to be placed in the footer
 logo: logo.png
 description: This online tutorials contains a miscellaneous of satellite image processing for new students, designed and written by Vitor Martins and collaborators from

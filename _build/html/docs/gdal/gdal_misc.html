@@ -64,6 +64,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/gdal/gdal_misc';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="DL Land cover" href="../deeplearning/unet_class.html" />
     <link rel="prev" title="Python for satellite image processing" href="../../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -158,6 +159,10 @@ const thebe_selector_output = ".output, .cell_output"
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">INTRODUCTION</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><span style="color:black;">GDAL programs</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deeplearning/unet_class.html"><span style="color:black;">DL Land cover</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deeplearning/ndvi_time_series.html"><span style="color:black;">Crop Time series Xarray</span></a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../deeplearning/stract_pixels_values.html"><span style="color:black;">EVI Phenology</span></a></li>
 </ul>
 
     </div>
@@ -403,10 +408,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-overview-span"><span style="color:black;">Overview</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-installation-span"><span style="color:black;">Installation</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-raster-programs-span"><span style="color:black;">GDAL raster programs</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalinfo-span"><span style="color:black;">GDALINFO</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-translate-span"><span style="color:black;">GDAL_TRANSLATE</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalwarp-span"><span style="color:black;">GDALWARP</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-build-vrt-span"><span style="color:black;">GDAL_BUILD_VRT</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalinfo-span"><span style="color:black;">GdalInfo</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-translate-span"><span style="color:black;">Gdal_Translate</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalwarp-span"><span style="color:black;">GdalWarp</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-build-vrt-span"><span style="color:black;">Gdal_Build_VRT</span></a></li>
 </ul>
             </nav>
         </div>
@@ -422,7 +427,7 @@ document.write(`
 <h1><span style="color:black;">GDAL programs</span><a class="headerlink" href="#span-style-color-black-gdal-programs-span" title="Permalink to this heading">#</a></h1>
 <section id="span-style-color-black-overview-span">
 <h2><span style="color:black;">Overview</span><a class="headerlink" href="#span-style-color-black-overview-span" title="Permalink to this heading">#</a></h2>
-<p>By Vitor Martins, and revised by _____</p>
+<p><em><strong>Developed by Vitor Martins</strong></em></p>
 <p>From <a class="reference external" href="https://gdal.org/index.html">GDAL webpage</a>: “GDAL is a translator library for raster and vector geospatial data formats that is released under an MIT style Open Source License by the Open Source Geospatial Foundation. As a library, it presents a single raster abstract data model and single vector abstract data model to the calling application for all supported formats. It also comes with a variety of useful command line utilities for data translation and processing.”.</p>
 </section>
 <section id="span-style-color-black-installation-span">
@@ -452,14 +457,14 @@ gdalinfo: Lists information about a raster dataset.</p>
 <p>gdal_polygonize.py: Produces a polygon feature layer from a raster.</p>
 </section>
 <section id="span-style-color-black-gdalinfo-span">
-<h2><span style="color:black;">GDALINFO</span><a class="headerlink" href="#span-style-color-black-gdalinfo-span" title="Permalink to this heading">#</a></h2>
+<h2><span style="color:black;">GdalInfo</span><a class="headerlink" href="#span-style-color-black-gdalinfo-span" title="Permalink to this heading">#</a></h2>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gdalinfo<span class="w"> </span>LC08_L2SP_022039_20190322_20200829_02_T1_SR_B2.TIF
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../../_images/gdalinfo.png"><img alt="../../_images/gdalinfo.png" class="align-center" src="../../_images/gdalinfo.png" style="width: 750px;" /></a>
 </section>
 <section id="span-style-color-black-gdal-translate-span">
-<h2><span style="color:black;">GDAL_TRANSLATE</span><a class="headerlink" href="#span-style-color-black-gdal-translate-span" title="Permalink to this heading">#</a></h2>
+<h2><span style="color:black;">Gdal_Translate</span><a class="headerlink" href="#span-style-color-black-gdal-translate-span" title="Permalink to this heading">#</a></h2>
 <p>To run, replace the input for the landsat image (LC08_L2SP_022039_20190322_20200829_02_T1_SR_B2.tif)</p>
 <p>List raster drivers</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdal_translate<span class="w"> </span>--formats
@@ -473,12 +478,12 @@ gdalinfo: Lists information about a raster dataset.</p>
 </pre></div>
 </div>
 <p>Compress my data in LZW</p>
-<blockquote>
-<div><p>gdal_translate -of “GTiff” -co “COMPRESS=LZW” LC08_L2SP_022039_20190322_20200829_02_T1_SR_B2.TIF output_compress.tif</p>
-</div></blockquote>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdal_translate<span class="w"> </span>-of<span class="w"> </span><span class="s2">&quot;GTiff&quot;</span><span class="w"> </span>-co<span class="w"> </span><span class="s2">&quot;COMPRESS=LZW&quot;</span><span class="w"> </span>LC08_L2SP_022039_20190322_20200829_02_T1_SR_B2.TIF<span class="w"> </span>output_compress.tif
+</pre></div>
+</div>
 </section>
 <section id="span-style-color-black-gdalwarp-span">
-<h2><span style="color:black;">GDALWARP</span><a class="headerlink" href="#span-style-color-black-gdalwarp-span" title="Permalink to this heading">#</a></h2>
+<h2><span style="color:black;">GdalWarp</span><a class="headerlink" href="#span-style-color-black-gdalwarp-span" title="Permalink to this heading">#</a></h2>
 <p>The gdalwarp has many applications, including reprojection, mosaicing, resampling pixel size, set nodata, cut the raster with other shapefile, and more.
 To understand the full list of options, see the parameters in <a class="reference external" href="https://gdal.org/programs/gdalwarp.html#gdalwarp">gdalwarp page</a></p>
 <p>Clip raster with shapefile for pixels within polygon boundary</p>
@@ -495,7 +500,7 @@ To understand the full list of options, see the parameters in <a class="referenc
 </div>
 </section>
 <section id="span-style-color-black-gdal-build-vrt-span">
-<h2><span style="color:black;">GDAL_BUILD_VRT</span><a class="headerlink" href="#span-style-color-black-gdal-build-vrt-span" title="Permalink to this heading">#</a></h2>
+<h2><span style="color:black;">Gdal_Build_VRT</span><a class="headerlink" href="#span-style-color-black-gdal-build-vrt-span" title="Permalink to this heading">#</a></h2>
 <p>Merge rasters</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>dir<span class="w"> </span>/b<span class="w"> </span>*.tif<span class="w"> </span>&gt;<span class="w"> </span>filelist.txt
 &gt;<span class="w"> </span>gdalbuildvrt<span class="w"> </span>-input_file_list<span class="w"> </span>filelist.txt<span class="w"> </span>merged.vrt
@@ -545,6 +550,15 @@ To understand the full list of options, see the parameters in <a class="referenc
         <p class="prev-next-title"><span style="color:black;"><strong>Python for satellite image processing</strong></span></p>
       </div>
     </a>
+    <a class="right-next"
+       href="../deeplearning/unet_class.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span style="color:black;">DL Land cover</span></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div></div>
   
 </div>
@@ -566,10 +580,10 @@ To understand the full list of options, see the parameters in <a class="referenc
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-overview-span"><span style="color:black;">Overview</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-installation-span"><span style="color:black;">Installation</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-raster-programs-span"><span style="color:black;">GDAL raster programs</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalinfo-span"><span style="color:black;">GDALINFO</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-translate-span"><span style="color:black;">GDAL_TRANSLATE</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalwarp-span"><span style="color:black;">GDALWARP</span></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-build-vrt-span"><span style="color:black;">GDAL_BUILD_VRT</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalinfo-span"><span style="color:black;">GdalInfo</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-translate-span"><span style="color:black;">Gdal_Translate</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalwarp-span"><span style="color:black;">GdalWarp</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-build-vrt-span"><span style="color:black;">Gdal_Build_VRT</span></a></li>
 </ul>
   </nav></div>
 
@@ -584,7 +598,7 @@ To understand the full list of options, see the parameters in <a class="referenc
   <div class="footer-item">
     
 <p class="component-author">
-By Vitor Martins
+By Vitor Martins, Dakota Hester, Lucas Ferreira, Uilson Aires
 </p>
 
   </div>

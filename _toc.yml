@@ -10,5 +10,8 @@ parts:
   - caption: INTRODUCTION
     chapters:
       - file: docs/gdal/gdal_misc
+      - file: docs/deeplearning/unet_class
+      - file: docs/deeplearning/ndvi_time_series
+      - file: docs/deeplearning/stract_pixels_values
 
 

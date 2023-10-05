@@ -1,0 +1,969 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>GDAL in Python &#8212; Python coding for satellite image processing</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/gdal/gdal_python';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../index.html">
+                    <span style="color:black;">Python for satellite image processing</span>
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">INTRODUCTION</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="gdal_misc.html"><span style="color:black;">GDAL programs</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deeplearning/unet_class.html"><span style="color:black;">DL Land cover</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deeplearning/ndvi_time_series.html"><span style="color:black;">Crop Time series Xarray</span></a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/vsmartins/gcersat/gh-pages?urlpath=lab/tree/docs/docs/gdal/gdal_python.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/vsmartins/gcersat/blob/gh-pages/docs/docs/gdal/gdal_python.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/vsmartins/gcersat" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/vsmartins/gcersat/issues/new?title=Issue%20on%20page%20%2Fdocs/gdal/gdal_python.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/docs/gdal/gdal_python.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1><span style="color:black;">GDAL in Python</span></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-overview-span"><span style="color:black;">Overview</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-packages-for-geospatial-span"><span style="color:black;">Packages for GeoSpatial</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-exploring-satellite-image-span"><span style="color:black;">Exploring satellite image</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-crop-image-span"><span style="color:black;">Crop image</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-translate-span"><span style="color:black;">Gdal_Translate</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalwarp-span"><span style="color:black;">GdalWarp</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-build-vrt-span"><span style="color:black;">Gdal_Build_VRT</span></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-black-gdal-in-python-span">
+<h1><span style="color:black;">GDAL in Python</span><a class="headerlink" href="#span-style-color-black-gdal-in-python-span" title="Permalink to this heading">#</a></h1>
+<section id="span-style-color-black-overview-span">
+<h2><span style="color:black;">Overview</span><a class="headerlink" href="#span-style-color-black-overview-span" title="Permalink to this heading">#</a></h2>
+<p>By Vitor Martins, and revised by _____</p>
+<p>We learned that you can use GDAL programs, and now we  in Python to work with geospatial data, and this is typically done using the gdal Python module.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>geoml<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
+conda<span class="w"> </span>activate<span class="w"> </span>geoml
+pip<span class="w"> </span>install<span class="w"> </span>wheel
+pip<span class="w"> </span>install<span class="w"> </span>pipwin
+pipwin<span class="w"> </span>install<span class="w"> </span>numpy
+pipwin<span class="w"> </span>install<span class="w"> </span>pandas
+pipwin<span class="w"> </span>install<span class="w"> </span>shapely
+pipwin<span class="w"> </span>install<span class="w"> </span>gdal
+
+ou
+
+conda<span class="w"> </span>install<span class="w"> </span>gdal
+
+pipwin<span class="w"> </span>install<span class="w"> </span>fiona
+pipwin<span class="w"> </span>install<span class="w"> </span>pyproj
+pipwin<span class="w"> </span>install<span class="w"> </span>six
+pipwin<span class="w"> </span>install<span class="w"> </span>rtree
+pip<span class="w"> </span>install<span class="w"> </span>geopandas
+pip<span class="w"> </span>install<span class="w"> </span>tensorflow-gpu
+pip<span class="w"> </span>install<span class="w"> </span>opencv-python
+pip<span class="w"> </span>install<span class="w"> </span>matplotlib
+pipwin<span class="w"> </span>pip
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>scikit-learn
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>rasterio<span class="w">  </span><span class="c1">## rasterio needs conda-forge</span>
+</pre></div>
+</div>
+</section>
+<section id="span-style-color-black-packages-for-geospatial-span">
+<h2><span style="color:black;">Packages for GeoSpatial</span><a class="headerlink" href="#span-style-color-black-packages-for-geospatial-span" title="Permalink to this heading">#</a></h2>
+<p>The GDAL installation is part of many software, including QGIS. I suggest the OSGeo4W for Windows. Go to the OSGeo4W website: <a class="reference external" href="https://trac.osgeo.org/osgeo4w/">https://trac.osgeo.org/osgeo4w/</a>, select the 64-bit version (most computers), and run the installer. Once you finish it, you can open the command line and verify if your computer is “finding” the gdal programs (e.g., gdalinfo, gdal_translate, gdalwarp etc).</p>
+</section>
+<section id="span-style-color-black-exploring-satellite-image-span">
+<h2><span style="color:black;">Exploring satellite image</span><a class="headerlink" href="#span-style-color-black-exploring-satellite-image-span" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="s2">&quot;path/image.tif&quot;</span><span class="p">)</span>
+<span class="n">width</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">RasterXSize</span>
+<span class="n">height</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">RasterYSize</span>
+<span class="n">projection</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">()</span>
+<span class="n">geotransform</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">()</span>
+<span class="n">band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Access the first band (bands are 1-based)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Close the dataset</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_27280</span>\<span class="mf">2429641457.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">dataset</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="s2">&quot;path/image.tif&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">width</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">RasterXSize</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">height</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">RasterYSize</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;osgeo&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_projection</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span>  <span class="c1"># Define the target projection</span>
+<span class="n">reprojected_dataset</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="s2">&quot;output.tif&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">dstSRS</span><span class="o">=</span><span class="n">target_projection</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+
+<span class="c1"># Open the single-band satellite image using GDAL</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="s2">&quot;path/to/single_band_image.tif&quot;</span><span class="p">)</span>
+<span class="n">band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Access the first (and only) band</span>
+
+<span class="c1"># Read the pixel data into a NumPy array</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+
+<span class="c1"># Create a plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>  <span class="c1"># Set the figure size</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>  <span class="c1"># Plot the data as a grayscale image</span>
+
+<span class="c1"># Add a colorbar for reference</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Pixel Value&#39;</span><span class="p">)</span>
+
+<span class="c1"># Set axis labels and title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;X-axis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Y-axis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Single-Band Satellite Image&#39;</span><span class="p">)</span>
+
+<span class="c1"># Display the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Close the dataset</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Open the RGB satellite image using GDAL</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="s2">&quot;path/to/rgb_image.tif&quot;</span><span class="p">)</span>
+
+<span class="c1"># Read individual bands</span>
+<span class="n">red_band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">green_band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">blue_band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Read the pixel data into NumPy arrays</span>
+<span class="n">red_data</span> <span class="o">=</span> <span class="n">red_band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+<span class="n">green_data</span> <span class="o">=</span> <span class="n">green_band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+<span class="n">blue_data</span> <span class="o">=</span> <span class="n">blue_band</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+
+<span class="c1"># Stack the RGB bands to create a true-color image</span>
+<span class="n">rgb_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">red_data</span><span class="p">,</span> <span class="n">green_data</span><span class="p">,</span> <span class="n">blue_data</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Create a plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>  <span class="c1"># Set the figure size</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">rgb_image</span><span class="p">)</span>  <span class="c1"># Plot the RGB image</span>
+
+<span class="c1"># Set axis labels and title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;X-axis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Y-axis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;RGB Satellite Image&#39;</span><span class="p">)</span>
+
+<span class="c1"># Display the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Close the dataset</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-black-crop-image-span">
+<h2><span style="color:black;">Crop image</span><a class="headerlink" href="#span-style-color-black-crop-image-span" title="Permalink to this heading">#</a></h2>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gdalinfo<span class="w"> </span>LC08_L2SP_022039_20190322_20200829_02_T1_SR_B2.TIF
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">ogr</span><span class="p">,</span> <span class="n">gdal_translate</span>
+<span class="n">input_image_path</span> <span class="o">=</span> <span class="s2">&quot;path/to/input_image.tif&quot;</span>
+<span class="n">input_dataset</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">input_image_path</span><span class="p">)</span>
+
+<span class="n">shapefile_path</span> <span class="o">=</span> <span class="s2">&quot;path/to/shapefile.shp&quot;</span>
+<span class="n">shapefile_ds</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">)</span>
+<span class="n">layer</span> <span class="o">=</span> <span class="n">shapefile_ds</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+
+<span class="n">feature</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">GetNextFeature</span><span class="p">()</span>
+<span class="n">cropping_geometry</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">GetGeometryRef</span><span class="p">()</span>
+
+<span class="n">output_image_path</span> <span class="o">=</span> <span class="s2">&quot;path/to/output_image.tif&quot;</span>
+<span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">output_image_path</span><span class="p">,</span> <span class="n">input_dataset</span><span class="p">,</span> <span class="n">cutlineDSName</span><span class="o">=</span><span class="n">shapefile_path</span><span class="p">,</span> <span class="n">cutlineLayer</span><span class="o">=</span><span class="n">layer</span><span class="o">.</span><span class="n">GetName</span><span class="p">(),</span> <span class="n">dstNodata</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">input_dataset</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">shapefile_ds</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">write_geotiff</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">geo_transform</span><span class="p">,</span> <span class="n">projection</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a GeoTIFF file with the given data.&quot;&quot;&quot;</span>
+    <span class="n">driver</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;GTiff&#39;</span><span class="p">)</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GDT_Byte</span><span class="p">)</span>
+    <span class="n">dataset</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">(</span><span class="n">geo_transform</span><span class="p">)</span>
+    <span class="n">dataset</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">projection</span><span class="p">)</span>
+    <span class="n">band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">band</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Close the file</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># MOSAIC</span>
+
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+
+<span class="c1"># Get a list of all the image files</span>
+<span class="n">image_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.tif&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a VRT file</span>
+<span class="n">vrt_file</span> <span class="o">=</span> <span class="s1">&#39;mosaic.vrt&#39;</span>
+<span class="n">vrt_options</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">BuildVRTOptions</span><span class="p">(</span><span class="n">resampleAlg</span><span class="o">=</span><span class="s1">&#39;average&#39;</span><span class="p">)</span>
+<span class="n">gdal</span><span class="o">.</span><span class="n">BuildVRT</span><span class="p">(</span><span class="n">vrt_file</span><span class="p">,</span> <span class="n">image_files</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">vrt_options</span><span class="p">)</span>
+
+<span class="c1"># Read the VRT file and save it as a new mosaic image</span>
+<span class="n">mosaic_ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">vrt_file</span><span class="p">)</span>
+<span class="n">mosaic_data</span> <span class="o">=</span> <span class="n">mosaic_ds</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+<span class="n">mosaic_trans</span> <span class="o">=</span> <span class="n">mosaic_ds</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">()</span>
+<span class="n">mosaic_proj</span> <span class="o">=</span> <span class="n">mosaic_ds</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">()</span>
+
+<span class="n">mosaic_file</span> <span class="o">=</span> <span class="s1">&#39;mosaic.tif&#39;</span>
+<span class="n">mosaic_driver</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;GTiff&#39;</span><span class="p">)</span>
+<span class="n">mosaic_ds</span> <span class="o">=</span> <span class="n">mosaic_driver</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">mosaic_file</span><span class="p">,</span> <span class="n">mosaic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mosaic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GDT_Float32</span><span class="p">)</span>
+<span class="n">mosaic_ds</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">(</span><span class="n">mosaic_trans</span><span class="p">)</span>
+<span class="n">mosaic_ds</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">mosaic_proj</span><span class="p">)</span>
+<span class="n">mosaic_ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">mosaic_data</span><span class="p">)</span>
+
+<span class="c1"># Close the datasets</span>
+<span class="n">mosaic_ds</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">mosaic_ds</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">geo_to_pixel_coords</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">geotrans</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+    <span class="c1"># type: (float, float, tuple, int, int) -&gt; (int, int)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert geo-coordinates to grid-coordinates</span>
+
+<span class="sd">    :param x: x-coordinate</span>
+<span class="sd">    :param y: y-coordinate</span>
+<span class="sd">    :param cols: number of columns of input image (x-size)</span>
+<span class="sd">    :param rows: number of rows of input image (y-size)</span>
+<span class="sd">    :param geotrans: GeoTransformObject from gdalDataSource or tuple with (xMin, cellWidth,</span>
+<span class="sd">            xRotation, yMax, yRotation, cellHeight). cellHeight has to be negative!</span>
+<span class="sd">    :return: Column and row at given position (col, row)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ulx</span> <span class="o">=</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">uly</span> <span class="o">=</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">lrx</span> <span class="o">=</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">cols</span> <span class="o">*</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">lry</span> <span class="o">=</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">rows</span> <span class="o">*</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">ulx</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">lrx</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">lry</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="n">uly</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Coordinate is outside the image!&#39;</span><span class="p">)</span>
+    <span class="c1"># do the math</span>
+    <span class="n">x_pix</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">ulx</span><span class="p">)</span> <span class="o">/</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">y_pix</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">uly</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="o">-</span><span class="n">geotrans</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">x_pix</span><span class="p">,</span> <span class="n">y_pix</span>
+
+
+<span class="k">def</span> <span class="nf">pixel_to_geo_coords</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">geotrans</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">):</span>
+    <span class="c1"># type: (int, int, tuple, str) -&gt; (float, float)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert grid-coordinates to geo-coordinates</span>
+
+<span class="sd">    :param col: column number (counting starts at 0)</span>
+<span class="sd">    :param row: row number (counting starts at 0)</span>
+<span class="sd">    :param geotrans: GeoTransformObject from gdalDataSource or tuple with (xMin, cellWidth,</span>
+<span class="sd">            xRotation, yMax, yRotation, cellHeight). cellHeight has to be nagtive!</span>
+<span class="sd">    :param loc: location within the pixel. One of &quot;center&quot;, &quot;ul&quot;, &quot;ur&quot;, &quot;ll&quot;, &quot;lr&quot;</span>
+<span class="sd">    :return: Coordinates at given grid cell (x, y)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ulx</span> <span class="o">=</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">xres</span> <span class="o">=</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">xrot</span> <span class="o">=</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">uly</span> <span class="o">=</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">yrot</span> <span class="o">=</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">yres</span> <span class="o">=</span> <span class="n">geotrans</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+    <span class="c1"># do the math</span>
+    <span class="k">if</span> <span class="n">loc</span> <span class="o">==</span> <span class="s1">&#39;center&#39;</span><span class="p">:</span>
+        <span class="n">xgeo</span> <span class="o">=</span> <span class="n">ulx</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">xres</span> <span class="o">+</span> <span class="n">xres</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">xrot</span>
+        <span class="n">ygeo</span> <span class="o">=</span> <span class="n">uly</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">yres</span> <span class="o">+</span> <span class="n">yres</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">yrot</span>
+    <span class="k">elif</span> <span class="n">loc</span> <span class="o">==</span> <span class="s1">&#39;ul&#39;</span><span class="p">:</span>
+        <span class="n">xgeo</span> <span class="o">=</span> <span class="n">ulx</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">xres</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">xrot</span>
+        <span class="n">ygeo</span> <span class="o">=</span> <span class="n">uly</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">yres</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">yrot</span>
+    <span class="k">elif</span> <span class="n">loc</span> <span class="o">==</span> <span class="s1">&#39;ll&#39;</span><span class="p">:</span>
+        <span class="n">xgeo</span> <span class="o">=</span> <span class="n">ulx</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">xres</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">xrot</span>
+        <span class="n">ygeo</span> <span class="o">=</span> <span class="n">uly</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">yres</span> <span class="o">+</span> <span class="n">yres</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">yrot</span>
+    <span class="k">elif</span> <span class="n">loc</span> <span class="o">==</span> <span class="s1">&#39;ur&#39;</span><span class="p">:</span>
+        <span class="n">xgeo</span> <span class="o">=</span> <span class="n">ulx</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">xres</span> <span class="o">+</span> <span class="n">xres</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">xrot</span>
+        <span class="n">ygeo</span> <span class="o">=</span> <span class="n">uly</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">yres</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">yrot</span>
+    <span class="k">elif</span> <span class="n">loc</span> <span class="o">==</span> <span class="s1">&#39;lr&#39;</span><span class="p">:</span>
+        <span class="n">xgeo</span> <span class="o">=</span> <span class="n">ulx</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">xres</span> <span class="o">+</span> <span class="n">xres</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">xrot</span>
+        <span class="n">ygeo</span> <span class="o">=</span> <span class="n">uly</span> <span class="o">+</span> <span class="n">row</span> <span class="o">*</span> <span class="n">yres</span> <span class="o">+</span> <span class="n">yres</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="n">yrot</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;loc only takes one of &quot;center&quot;, &quot;ul&quot;, &quot;ur&quot;, &quot;ll&quot;, &quot;lr&quot;!&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">xgeo</span><span class="p">,</span> <span class="n">ygeo</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="s2">&quot;dem.tif&quot;</span><span class="p">)</span>
+
+<span class="c1"># reproject</span>
+<span class="n">dsReprj</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="s2">&quot;demReprj.tif&quot;</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">dstSRS</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+<span class="c1"># resample</span>
+<span class="n">dsRes</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="s2">&quot;demRes.tif&quot;</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">xRes</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">yRes</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span>
+                  <span class="n">resampleAlg</span> <span class="o">=</span> <span class="s2">&quot;bilinear&quot;</span><span class="p">)</span>
+<span class="c1"># extraction</span>
+<span class="c1"># make sure your rastermgt data and shapefile have the same projection!</span>
+<span class="n">dsClip</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="s2">&quot;demClip.tif&quot;</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">cutlineDSName</span> <span class="o">=</span> <span class="s2">&quot;star.shp&quot;</span><span class="p">,</span>
+                   <span class="n">cropToCutline</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">dstNodata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="c1"># visualize</span>
+<span class="n">array</span> <span class="o">=</span> <span class="n">dsClip</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># close your datasets!</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dsClip</span> <span class="o">=</span> <span class="n">dsRes</span> <span class="o">=</span> <span class="n">dsReprj</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">srcfile</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;V:\temp\sentinel.tif&#39;</span>
+<span class="n">dstfile</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;V:\temp\sentinel_out.tif&#39;</span>
+
+<span class="c1"># reproject</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">srcfile</span><span class="p">)</span>
+<span class="n">dsReprj</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">dstfile</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">dstSRS</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+
+<span class="c1"># resample</span>
+<span class="n">srcfile</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;V:\temp\sentinel.tif&#39;</span>
+<span class="n">dstfile</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;V:\temp\sentinel_out2.tif&#39;</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">srcfile</span><span class="p">)</span>
+<span class="n">dsRes</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">dstfile</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">xRes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">yRes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">resampleAlg</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">)</span>
+
+<span class="c1"># extraction</span>
+<span class="n">srcfile</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;V:\temp\sentinel.tif&#39;</span>
+<span class="n">src_shp</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;V:\temp\tt.shp&#39;</span>
+<span class="n">dstfile</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;V:\temp\sentinel_out4.tif&#39;</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">srcfile</span><span class="p">)</span>
+<span class="c1"># make sure your rastermgt data and shapefile have the same projection!</span>
+<span class="n">dsClip</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">dstfile</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">cutlineDSName</span><span class="o">=</span><span class="n">src_shp</span><span class="p">,</span> <span class="n">cropToCutline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dstNodata</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># close your datasets!</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">dsClip</span> <span class="o">=</span> <span class="n">dsRes</span> <span class="o">=</span> <span class="n">dsReprj</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span>
+
+<span class="k">def</span> <span class="nf">export_image_2d</span><span class="p">(</span><span class="n">path_output_img</span><span class="p">,</span> <span class="n">d2array</span><span class="p">,</span> <span class="n">ds_gdal</span><span class="p">):</span>
+
+    <span class="c1"># create image driver</span>
+    <span class="n">driver</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s1">&#39;GTiff&#39;</span><span class="p">)</span>
+    <span class="c1"># create destination for label file</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">path_output_img</span><span class="p">,</span>
+                         <span class="n">d2array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                         <span class="n">d2array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                         <span class="mi">1</span><span class="p">,</span>
+                         <span class="n">gdal</span><span class="o">.</span><span class="n">GDT_Byte</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;COMPRESS=LZW&#39;</span><span class="p">])</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">(</span><span class="n">ds_gdal</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">())</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">ds_gdal</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">())</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">SetNoDataValue</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># write label file</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">d2array</span><span class="p">)</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">FlushCache</span><span class="p">()</span>  <span class="c1">##saves to disk!!</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">driver</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="span-style-color-black-gdal-translate-span">
+<h2><span style="color:black;">Gdal_Translate</span><a class="headerlink" href="#span-style-color-black-gdal-translate-span" title="Permalink to this heading">#</a></h2>
+<p>To run, replace the input for the landsat image (LC08_L2SP_022039_20190322_20200829_02_T1_SR_B2.tif)</p>
+<p>List raster drivers</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdal_translate<span class="w"> </span>--formats
+</pre></div>
+</div>
+<p>Convert between raster formats</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdal_translate<span class="w"> </span>-of<span class="w"> </span><span class="s2">&quot;JP2OpenJPEG&quot;</span><span class="w"> </span>input.tif<span class="w"> </span>output.jp2
+</pre></div>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdal_translate<span class="w"> </span>-of<span class="w"> </span><span class="s2">&quot;ENVI&quot;</span><span class="w"> </span>input.tif<span class="w"> </span>output.envi
+</pre></div>
+</div>
+<p>Compress my data in LZW</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdal_translate<span class="w"> </span>-of<span class="w"> </span><span class="s2">&quot;GTiff&quot;</span><span class="w"> </span>-co<span class="w"> </span><span class="s2">&quot;COMPRESS=LZW&quot;</span><span class="w"> </span>LC08_L2SP_022039_20190322_20200829_02_T1_SR_B2.TIF<span class="w"> </span>output_compress.tif
+</pre></div>
+</div>
+</section>
+<section id="span-style-color-black-gdalwarp-span">
+<h2><span style="color:black;">GdalWarp</span><a class="headerlink" href="#span-style-color-black-gdalwarp-span" title="Permalink to this heading">#</a></h2>
+<p>The gdalwarp has many applications, including reprojection, mosaicing, resampling pixel size, set nodata, cut the raster with other shapefile, and more.
+To understand the full list of options, see the parameters in <a class="reference external" href="https://gdal.org/programs/gdalwarp.html#gdalwarp">gdalwarp page</a></p>
+<p>Clip raster with shapefile for pixels within polygon boundary</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdalwarp<span class="w"> </span>-crop_to_cutline<span class="w"> </span>-cutline<span class="w"> </span>lake_within_landsat.shp<span class="w"> </span>input.tif<span class="w"> </span>output.tif
+</pre></div>
+</div>
+<p>Change no data</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdalwarp<span class="w"> </span>-srcnodata<span class="w"> </span>-999999<span class="w"> </span>-dstnodata<span class="w"> </span><span class="m">0</span><span class="w"> </span>input.tif<span class="w"> </span>output.tif
+</pre></div>
+</div>
+<p>Reproject raster</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>gdalwarp<span class="w"> </span>-srcnodata<span class="w"> </span>-t_srs<span class="w"> </span><span class="s2">&quot;EPSG:4326&quot;</span><span class="w"> </span>input.tif<span class="w"> </span>output.tif
+</pre></div>
+</div>
+</section>
+<section id="span-style-color-black-gdal-build-vrt-span">
+<h2><span style="color:black;">Gdal_Build_VRT</span><a class="headerlink" href="#span-style-color-black-gdal-build-vrt-span" title="Permalink to this heading">#</a></h2>
+<p>Merge rasters</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>dir<span class="w"> </span>/b<span class="w"> </span>*.tif<span class="w"> </span>&gt;<span class="w"> </span>filelist.txt
+&gt;<span class="w"> </span>gdalbuildvrt<span class="w"> </span>-input_file_list<span class="w"> </span>filelist.txt<span class="w"> </span>merged.vrt
+&gt;<span class="w"> </span>gdalwarp<span class="w"> </span>merged.vrt<span class="w"> </span>output.tif
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs\gdal"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-overview-span"><span style="color:black;">Overview</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-packages-for-geospatial-span"><span style="color:black;">Packages for GeoSpatial</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-exploring-satellite-image-span"><span style="color:black;">Exploring satellite image</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-crop-image-span"><span style="color:black;">Crop image</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-translate-span"><span style="color:black;">Gdal_Translate</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdalwarp-span"><span style="color:black;">GdalWarp</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-gdal-build-vrt-span"><span style="color:black;">Gdal_Build_VRT</span></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Vitor Martins, Dakota Hester, Lucas Ferreira, Uilson Aires
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
