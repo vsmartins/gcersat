@@ -17,5 +17,5 @@ We would like to bring more opportunities for new members in GCERlab, and becaus
 ```
 
 ```{note}
-These lectures on Python programming was written by [Vitor S. Martins](http://www.gcerlab.com/) and GCERlab members.
+These lectures on Python programming was written by GCERlab members (http://www.gcerlab.com/).
 ```
