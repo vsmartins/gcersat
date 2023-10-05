@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Crop Time series Xarray &#8212; Python coding for satellite image processing</title>
+    <title>NDVI time series &#8212; Python coding for satellite image processing</title>
   
   
   
@@ -160,7 +160,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../gdal/gdal_misc.html"><span style="color:black;">GDAL programs</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="unet_class.html"><span style="color:black;">DL Land cover</span></a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#"><span style="color:black;">Crop Time series Xarray</span></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><span style="color:black;">NDVI time series</span></a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="stract_pixels_values.html"><span style="color:black;">EVI Phenology</span></a></li>
 </ul>
@@ -395,7 +395,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><span style="color:black;">Crop Time series Xarray</span></h1>
+    <h1><span style="color:black;">NDVI time series</span></h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -405,8 +405,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><span style="color:black;">Crop Time series Xarray</span></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-ndvi-time-series-span"><span style="color:black;"> NDVI time series</span></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><span style="color:black;">NDVI time series</span></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><span style="color:black;"> NDVI time series</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-handling-files-using-rasterio-span"><span style="color:black;">Handling files using rasterio</span></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-exploring-the-dataset-span"><span style="color:black;">Exploring the dataset</span></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-computing-and-plotting-ndvi-across-time-span"><span style="color:black;">Computing and plotting NDVI across time</span></a></li>
@@ -428,8 +428,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-black-crop-time-series-xarray-span">
-<h1><span style="color:black;">Crop Time series Xarray</span><a class="headerlink" href="#span-style-color-black-crop-time-series-xarray-span" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-black-ndvi-time-series-span">
+<h1><span style="color:black;">NDVI time series</span><a class="headerlink" href="#span-style-color-black-ndvi-time-series-span" title="Permalink to this heading">#</a></h1>
 <p><em><strong>Developed by Lucas Ferreira</strong></em></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -453,7 +453,7 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_37764</span>\<span class="mf">1276475333.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_22720</span>\<span class="mf">1276475333.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Importing libraries</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">rasterio</span>
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">xarray</span>
@@ -465,8 +465,8 @@ document.write(`
 </div>
 </div>
 </div>
-<section id="span-style-color-black-ndvi-time-series-span">
-<h2><span style="color:black;"> NDVI time series</span><a class="headerlink" href="#span-style-color-black-ndvi-time-series-span" title="Permalink to this heading">#</a></h2>
+<section id="id1">
+<h2><span style="color:black;"> NDVI time series</span><a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>The dataset is composed of 4 Sentinel-2 images.</p></li>
 <li><p>Each image is a subset a full Sentinel-2 tile.</p></li>
@@ -1224,8 +1224,8 @@ Attributes:
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><span style="color:black;">Crop Time series Xarray</span></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-ndvi-time-series-span"><span style="color:black;"> NDVI time series</span></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><span style="color:black;">NDVI time series</span></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><span style="color:black;"> NDVI time series</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-handling-files-using-rasterio-span"><span style="color:black;">Handling files using rasterio</span></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-exploring-the-dataset-span"><span style="color:black;">Exploring the dataset</span></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-computing-and-plotting-ndvi-across-time-span"><span style="color:black;">Computing and plotting NDVI across time</span></a></li>
