@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>EVI Time series &#8212; Python coding for satellite image processing</title>
+    <title>EVI Phenology &#8212; Python coding for satellite image processing</title>
   
   
   
@@ -161,7 +161,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="unet_class.html"><span style="color:black;">DL Land cover</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="ndvi_time_series.html"><span style="color:black;">Crop Time series Xarray</span></a></li>
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#"><span style="color:black;">EVI Time series</span></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><span style="color:black;">EVI Phenology</span></a></li>
 </ul>
 
     </div>
@@ -394,7 +394,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><span style="color:black;">EVI Time series</span></h1>
+    <h1><span style="color:black;">EVI Phenology</span></h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -416,9 +416,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-black-evi-time-series-span">
-<h1><span style="color:black;">EVI Time series</span><a class="headerlink" href="#span-style-color-black-evi-time-series-span" title="Permalink to this heading">#</a></h1>
-<p>Developed by Uilson Aires</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-black-evi-phenology-span">
+<h1><span style="color:black;">EVI Phenology</span><a class="headerlink" href="#span-style-color-black-evi-phenology-span" title="Permalink to this heading">#</a></h1>
+<p><em><strong>Developed by Uilson Aires</strong></em></p>
 <section id="span-style-color-black-extract-pixel-values-from-raster-span">
 <h2><span style="color:black;">Extract pixel values from raster</span><a class="headerlink" href="#span-style-color-black-extract-pixel-values-from-raster-span" title="Permalink to this heading">#</a></h2>
 <p>Extracting raster values for a specific geographic coordinate is very useful to obtain surface information. It can provide data for several applications, such as environmental monitoring, water resource management, agriculture, urban planning, and more. In this tutorial, we will learn how to use Python to obtain and plot a timeseries of <a class="reference external" href="https://bikeshbade.com.np/tutorials/Detail/?title=All%20you%20need%20to%20know%20about%20EVI&amp;code=21">enhanced vegetation index (EVI)</a> for a specific longitude and latitude coordinate. The following libraries will be required for this tutorial:</p>
@@ -437,7 +437,7 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_10336</span>\<span class="mf">4063045680.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_30172</span>\<span class="mf">4063045680.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">os</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">glob</span>
 <span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">pyproj</span>

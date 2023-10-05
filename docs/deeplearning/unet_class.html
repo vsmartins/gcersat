@@ -164,6 +164,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><span style="color:black;">DL Land cover</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="ndvi_time_series.html"><span style="color:black;">Crop Time series Xarray</span></a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="stract_pixels_values.html"><span style="color:black;">EVI Phenology</span></a></li>
 </ul>
 
     </div>
@@ -406,7 +407,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-overview-span"><span style="color:black;">Overview</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-data-sources-span"><span style="color:black;">Data sources</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-loading-data-span"><span style="color:black;">Loading data</span></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-finding-files-span"><span style="color:black;">Finding files</span></a><ul class="nav section-nav flex-column">
@@ -454,13 +454,9 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-black-dl-land-cover-span">
 <h1><span style="color:black;">DL Land cover</span><a class="headerlink" href="#span-style-color-black-dl-land-cover-span" title="Permalink to this heading">#</a></h1>
-<p>Developed by Dakota Hester</p>
-<section id="span-style-color-black-overview-span">
-<h2><span style="color:black;">Overview</span><a class="headerlink" href="#span-style-color-black-overview-span" title="Permalink to this heading">#</a></h2>
-<p>Land cover classification at 1-meter spatial resolution using aerial imagery and deep learning</p>
-<p>By Dakota Hester</p>
+<p><strong>Land cover classification at 1-meter spatial resolution using aerial imagery and deep learning</strong></p>
+<p><em><strong>Developed by Dakota Hester</strong></em></p>
 <p>Land cover classification is an important task in remote sensing: land cover maps are integral to monitoring the interaction between humans and the environment, as well as monitoring changes in natural resources. Land cover maps are typically created at medium spatial resolutions using remote sensing data from instruments aboard satellites (such as Landsat and Sentinel-2) that is processed by pixel-based machine learning algorithms. However, at high resolutions (&lt;5 meters), the effectiveness of pixel-based approaches to classification of remote sensing imagery tends to decrease due to increased intra-class variance and the prevalence of noise in the data. Deep learning approaches, on the other hand, use both spectral <em>and spatial</em> information when processing remote sensing data, alleviating some of the negative effects of aforementioned increased intra-class variance. This purpose of this tutorial is to provide a basic introduction for applying deep learning methods to remote sensing data. In particular, we will be training a modified U-Net semantic segmentation model to create an end-to-end approach to land cover classification.</p>
-</section>
 <section id="span-style-color-black-data-sources-span">
 <h2><span style="color:black;">Data sources</span><a class="headerlink" href="#span-style-color-black-data-sources-span" title="Permalink to this heading">#</a></h2>
 <p>In order to develop a deep learning model, we need a large source of labelled imagery for supervised training. The Chesapeake Bay land cover dataset is a 6 class 1-meter spatial resolution land cover dataset over the Chesapeake Bay watershed on the east coast of the United States. The labels in the target data correspond to the following land cover classes:</p>
@@ -548,7 +544,7 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_20836</span>\<span class="mf">1356497114.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_40384</span>\<span class="mf">1356497114.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">os</span>
 <span class="ne">----&gt; </span><span class="mi">2</span> <span class="k">def</span> <span class="nf">get_list_of_files</span><span class="p">(</span><span class="n">data_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\dataset\raster\unet_data&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="s1">&#39;&#39;&#39;Returns a list of tuples of the form (path_to_input_sample, path_to_label)</span>
@@ -1926,7 +1922,6 @@ Low Vegetation/Field       0.78      0.93      0.85  19373471
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-overview-span"><span style="color:black;">Overview</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-data-sources-span"><span style="color:black;">Data sources</span></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-loading-data-span"><span style="color:black;">Loading data</span></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-finding-files-span"><span style="color:black;">Finding files</span></a><ul class="nav section-nav flex-column">
