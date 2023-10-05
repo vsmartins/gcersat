@@ -1,6 +1,6 @@
 # <span style="color:black;">**Python for satellite image processing**</span>
 
-**By [Vitor Martins](https://www.gcerlab.com/) 🛰️🌍💻**
+**By [Vitor Martins](https://www.gcerlab.com/), Dakota Hester, Lucas Borges, Uilson Aires 🛰️🌍💻**
 
 ## <span style="color:black;">Preface</span>
 

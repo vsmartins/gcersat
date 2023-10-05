@@ -66,6 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/deeplearning/unet_class';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Crop Time series Xarray" href="ndvi_time_series.html" />
     <link rel="prev" title="GDAL programs" href="../gdal/gdal_misc.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -160,7 +161,9 @@ const thebe_selector_output = ".output, .cell_output"
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">INTRODUCTION</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../gdal/gdal_misc.html"><span style="color:black;">GDAL programs</span></a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">DL Land cover</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><span style="color:black;">DL Land cover</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="ndvi_time_series.html"><span style="color:black;">Crop Time series Xarray</span></a></li>
+
 </ul>
 
     </div>
@@ -393,7 +396,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>DL Land cover</h1>
+    <h1><span style="color:black;">DL Land cover</span></h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -403,10 +406,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#land-cover-classification-at-1-meter-spatial-resolution-using-aerial-imagery-and-deep-learning">Land cover classification at 1-meter spatial resolution using aerial imagery and deep learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-sources">Data sources</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-data">Loading data</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-files">Finding files</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-overview-span"><span style="color:black;">Overview</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-data-sources-span"><span style="color:black;">Data sources</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-loading-data-span"><span style="color:black;">Loading data</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-finding-files-span"><span style="color:black;">Finding files</span></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#merging-impervious-classes">Merging impervious classes</a></li>
 </ul>
 </li>
@@ -429,13 +432,13 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameters-optimization-and-gpu-acceleration">Hyperparameters, optimization, and GPU acceleration</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataloader">DataLoader</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-dataloader-span"><span style="color:black;">DataLoader</span></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics">Metrics</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confusion-matrix">Confusion matrix</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-analysis">Visual analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-evaluation-span"><span style="color:black;">Evaluation</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-metrics-span"><span style="color:black;">Metrics</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-confusion-matrix-span"><span style="color:black;">Confusion matrix</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-visual-analysis-span"><span style="color:black;">Visual analysis</span></a></li>
 </ul>
 </li>
 </ul>
@@ -449,15 +452,17 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="dl-land-cover">
-<h1>DL Land cover<a class="headerlink" href="#dl-land-cover" title="Permalink to this heading">#</a></h1>
-<section id="land-cover-classification-at-1-meter-spatial-resolution-using-aerial-imagery-and-deep-learning">
-<h2>Land cover classification at 1-meter spatial resolution using aerial imagery and deep learning<a class="headerlink" href="#land-cover-classification-at-1-meter-spatial-resolution-using-aerial-imagery-and-deep-learning" title="Permalink to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="span-style-color-black-dl-land-cover-span">
+<h1><span style="color:black;">DL Land cover</span><a class="headerlink" href="#span-style-color-black-dl-land-cover-span" title="Permalink to this heading">#</a></h1>
+<p>Developed by Dakota Hester</p>
+<section id="span-style-color-black-overview-span">
+<h2><span style="color:black;">Overview</span><a class="headerlink" href="#span-style-color-black-overview-span" title="Permalink to this heading">#</a></h2>
+<p>Land cover classification at 1-meter spatial resolution using aerial imagery and deep learning</p>
 <p>By Dakota Hester</p>
 <p>Land cover classification is an important task in remote sensing: land cover maps are integral to monitoring the interaction between humans and the environment, as well as monitoring changes in natural resources. Land cover maps are typically created at medium spatial resolutions using remote sensing data from instruments aboard satellites (such as Landsat and Sentinel-2) that is processed by pixel-based machine learning algorithms. However, at high resolutions (&lt;5 meters), the effectiveness of pixel-based approaches to classification of remote sensing imagery tends to decrease due to increased intra-class variance and the prevalence of noise in the data. Deep learning approaches, on the other hand, use both spectral <em>and spatial</em> information when processing remote sensing data, alleviating some of the negative effects of aforementioned increased intra-class variance. This purpose of this tutorial is to provide a basic introduction for applying deep learning methods to remote sensing data. In particular, we will be training a modified U-Net semantic segmentation model to create an end-to-end approach to land cover classification.</p>
 </section>
-<section id="data-sources">
-<h2>Data sources<a class="headerlink" href="#data-sources" title="Permalink to this heading">#</a></h2>
+<section id="span-style-color-black-data-sources-span">
+<h2><span style="color:black;">Data sources</span><a class="headerlink" href="#span-style-color-black-data-sources-span" title="Permalink to this heading">#</a></h2>
 <p>In order to develop a deep learning model, we need a large source of labelled imagery for supervised training. The Chesapeake Bay land cover dataset is a 6 class 1-meter spatial resolution land cover dataset over the Chesapeake Bay watershed on the east coast of the United States. The labels in the target data correspond to the following land cover classes:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>1 = water
 2 = tree canopy / forest
@@ -472,11 +477,11 @@ document.write(`
 <p><img alt="cb_extent" src="../../_images/CBLULC_extent.png" /></p>
 <p>We will only be using a small subset of the dataset for this example. Specifically, the dataset consists of 10 NAIP scenes from the east coast of Virginia and their corresponding land cover annotations. Each scene has been sampled into a grid of 224x224 patches. The data is stored in the <code class="docutils literal notranslate"><span class="pre">./data</span></code> directory in this repository.</p>
 </section>
-<section id="loading-data">
-<h2>Loading data<a class="headerlink" href="#loading-data" title="Permalink to this heading">#</a></h2>
+<section id="span-style-color-black-loading-data-span">
+<h2><span style="color:black;">Loading data</span><a class="headerlink" href="#span-style-color-black-loading-data-span" title="Permalink to this heading">#</a></h2>
 <p>In order to load data from rasters into python, we need to use the <code class="docutils literal notranslate"><span class="pre">rasterio</span></code> module. Below is an example of how to open and visualize a file using rasterio.</p>
-<section id="finding-files">
-<h3>Finding files<a class="headerlink" href="#finding-files" title="Permalink to this heading">#</a></h3>
+<section id="span-style-color-black-finding-files-span">
+<h3><span style="color:black;">Finding files</span><a class="headerlink" href="#span-style-color-black-finding-files-span" title="Permalink to this heading">#</a></h3>
 <p>Before we can load files, we need to know where they are at. In this case, there is some NAIP data that has aleady been sampled stored in <code class="docutils literal notranslate"><span class="pre">./data</span></code> with the following directory structure:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span> <span class="n">unet_data</span><span class="o">/</span>
 <span class="o">||</span> <span class="n">NAIP_PATCH_ID</span><span class="o">/</span> 
@@ -543,7 +548,7 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_30652</span>\<span class="mf">1356497114.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_20836</span>\<span class="mf">1356497114.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">os</span>
 <span class="ne">----&gt; </span><span class="mi">2</span> <span class="k">def</span> <span class="nf">get_list_of_files</span><span class="p">(</span><span class="n">data_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\dataset\raster\unet_data&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="s1">&#39;&#39;&#39;Returns a list of tuples of the form (path_to_input_sample, path_to_label)</span>
@@ -1520,8 +1525,8 @@ Estimated Total Size (MB): 9376.79
 </div>
 </div>
 </section>
-<section id="dataloader">
-<h3>DataLoader<a class="headerlink" href="#dataloader" title="Permalink to this heading">#</a></h3>
+<section id="span-style-color-black-dataloader-span">
+<h3><span style="color:black;">DataLoader</span><a class="headerlink" href="#span-style-color-black-dataloader-span" title="Permalink to this heading">#</a></h3>
 <p>PyTorch uses the DataLoader class to select and batch samples during training. Because we are using a validation set as well as a training set,</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1682,11 +1687,12 @@ Estimated Total Size (MB): 9376.79
 </div>
 </section>
 </section>
-<section id="evaluation">
-<h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this heading">#</a></h2>
+<section id="span-style-color-black-evaluation-span">
+<h2><span style="color:black;">Evaluation</span><a class="headerlink" href="#span-style-color-black-evaluation-span" title="Permalink to this heading">#</a></h2>
 <p>Now that the model has been trained, the final (and most important) step is to determine the model’s performance by performing inference on an annotated holdout “test” set.</p>
-<section id="metrics">
-<h3>Metrics<a class="headerlink" href="#metrics" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="span-style-color-black-metrics-span">
+<h2><span style="color:black;">Metrics</span><a class="headerlink" href="#span-style-color-black-metrics-span" title="Permalink to this heading">#</a></h2>
 <p>The simplest way to construct metrics on a per-class basis is to first count the number of true positives, false positives, true negatives, and false negatives by comparing the ground truth data and the models predictions. For enhanced accuracy, we can do this on a per-class basis.</p>
 <blockquote>
 <div><p>True Positives (<span class="math notranslate nohighlight">\( TP \)</span>): positive prediction is correct - (<span class="math notranslate nohighlight">\( \hat{y} = 1; y = 1 \)</span>)</p>
@@ -1765,9 +1771,8 @@ Low Vegetation/Field       0.78      0.93      0.85  19373471
 </div>
 </div>
 <p>Overall, the results are mixed. The model excels at classifying water, tree canopy, and low vegetation (to a lesser extent), but is poor at classifying barren land and impervious classes. One reason for the poor performance on both the barren land and impervious classes is the lack of support for those classes in the training and testing dataset. Recall earlier that this dataset is extremely unbalanced. In order to boost the performance the barren land and impervious classes, we would need to source more samples that contain those classes.</p>
-</section>
-<section id="confusion-matrix">
-<h3>Confusion matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this heading">#</a></h3>
+<section id="span-style-color-black-confusion-matrix-span">
+<h3><span style="color:black;">Confusion matrix</span><a class="headerlink" href="#span-style-color-black-confusion-matrix-span" title="Permalink to this heading">#</a></h3>
 <p>To get a better idea of how the model is classifying based on the input data, we can generate a confusion matrix. Confusion matrices show the difference between the ground truth data and the model’s inferences on a class-by-class basis.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1788,8 +1793,8 @@ Low Vegetation/Field       0.78      0.93      0.85  19373471
 </div>
 <p>The model obviously struggles with classifying impervious and barren land classes, most likely due to the lack of samples in the dataset.</p>
 </section>
-<section id="visual-analysis">
-<h3>Visual analysis<a class="headerlink" href="#visual-analysis" title="Permalink to this heading">#</a></h3>
+<section id="span-style-color-black-visual-analysis-span">
+<h3><span style="color:black;">Visual analysis</span><a class="headerlink" href="#span-style-color-black-visual-analysis-span" title="Permalink to this heading">#</a></h3>
 <p>Finally, let’s look at some example predictions on the hold-out data to make sure our model’s inferences look accurate, since metrics only give us part of the story.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1894,6 +1899,15 @@ Low Vegetation/Field       0.78      0.93      0.85  19373471
         <p class="prev-next-title"><span style="color:black;">GDAL programs</span></p>
       </div>
     </a>
+    <a class="right-next"
+       href="ndvi_time_series.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span style="color:black;">Crop Time series Xarray</span></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div></div>
   
 </div>
@@ -1912,10 +1926,10 @@ Low Vegetation/Field       0.78      0.93      0.85  19373471
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#land-cover-classification-at-1-meter-spatial-resolution-using-aerial-imagery-and-deep-learning">Land cover classification at 1-meter spatial resolution using aerial imagery and deep learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-sources">Data sources</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-data">Loading data</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-files">Finding files</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-overview-span"><span style="color:black;">Overview</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-data-sources-span"><span style="color:black;">Data sources</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-loading-data-span"><span style="color:black;">Loading data</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-finding-files-span"><span style="color:black;">Finding files</span></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#merging-impervious-classes">Merging impervious classes</a></li>
 </ul>
 </li>
@@ -1938,13 +1952,13 @@ Low Vegetation/Field       0.78      0.93      0.85  19373471
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameters-optimization-and-gpu-acceleration">Hyperparameters, optimization, and GPU acceleration</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataloader">DataLoader</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-dataloader-span"><span style="color:black;">DataLoader</span></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics">Metrics</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confusion-matrix">Confusion matrix</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-analysis">Visual analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-evaluation-span"><span style="color:black;">Evaluation</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-metrics-span"><span style="color:black;">Metrics</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-confusion-matrix-span"><span style="color:black;">Confusion matrix</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#span-style-color-black-visual-analysis-span"><span style="color:black;">Visual analysis</span></a></li>
 </ul>
 </li>
 </ul>
@@ -1961,7 +1975,7 @@ Low Vegetation/Field       0.78      0.93      0.85  19373471
   <div class="footer-item">
     
 <p class="component-author">
-By Vitor Martins, Dakota Hester
+By Vitor Martins, Dakota Hester, Lucas Ferreira, Uilson Aires
 </p>
 
   </div>
